@@ -14,17 +14,21 @@
             height: 100vh;
             margin: 0;
             flex-direction: column;
+            position: relative;
+            overflow: hidden; /* Hide overflow to prevent stars from scrolling */
+            background-color: #000; /* Set background color */
         }
         #message {
-            margin: 100px;
+            margin: 20px;
             padding: 15px;
             font-size: 24px;
             font-family: 'Arial', sans-serif;
             text-align: center;
-            color: #333;
-            background-color: #f0f0f0;
+            color: #fff; /* Set text color to white */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1; /* Ensure message is above stars */
         }
         #diamondContainer {
             position: relative;
@@ -33,33 +37,44 @@
             cursor: pointer;
             animation: rotateAnimation 4s linear infinite; /* Rotate animation */
             max-width: 100%; /* Ensure the image doesn't exceed its natural size */
+            z-index: 2; /* Ensure diamond is above stars and message */
         }
         #hiddenImage {
             display: none;
+            z-index: 2; /* Ensure hidden image is above stars and message */
         }
 
-        @keyframes rotateAnimation {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+        /* Starry background styling */
+        #starrySky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Set stars behind other elements */
+            pointer-events: none; /* Allow clicking through stars */
         }
-
-        /* Media Queries for Responsive Design */
-        @media (max-width: 768px) {
-            #message {
-                font-size: 18px;
-            }
+        .star {
+            position: absolute;
+            background: #fff; /* Star color */
+            border-radius: 50%;
+            animation: twinkleAnimation linear infinite;
+        }
+        @keyframes twinkleAnimation {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0); }
         }
     </style>
 </head>
 <body>
-    <div id="message" class="animate__animated animate__fadeInDownBig">Click on the diamond to see another diamond!</div>
+    <!-- Starry background -->
+    <div id="starrySky"></div>
+
+    <div id="message" class="animate__animated animate__fadeInDownBig">Click on the diamond to see another diamond</div>
 
     <div id="diamondContainer">
-        <div id="diamondImage">
+        <div id="diamondImage" onclick="changePhoto()">
             <img src="diamond.jpeg" alt="Diamond">
         </div>
     </div>
@@ -68,11 +83,33 @@
     </div>
 
     <script>
-        document.getElementById('diamondImage').addEventListener('click', function() {
+        function changePhoto() {
+            // Hide starry background
+            document.getElementById('starrySky').style.display = 'none';
+
+            // Hide diamond image
             document.getElementById('diamondImage').style.display = 'none';
+
+            // Show hidden image
             document.getElementById('hiddenImage').style.display = 'block';
+
+            // Hide the message
             document.getElementById('message').style.display = 'none';
-        });
+        }
+
+        // Create stars dynamically
+        const starrySky = document.getElementById('starrySky');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = `${Math.random() * 2}px`;
+            star.style.height = `${Math.random() * 2}px`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.animationDuration = `${Math.random() * 1.5 + 0.5}s`;
+            star.style.animationDelay = `${Math.random() * 2}s`;
+            starrySky.appendChild(star);
+        }
     </script>
 </body>
 </html>
