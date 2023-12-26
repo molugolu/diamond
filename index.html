@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Landing Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        #message {
+            margin: 100px;
+            padding: 15px;
+            font-size: 24px;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: #333;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #diamondContainer {
+            position: relative;
+        }
+        #diamondImage {
+            cursor: pointer;
+            animation: rotateAnimation 4s linear infinite; /* Rotate animation */
+            max-width: 100%; /* Ensure the image doesn't exceed its natural size */
+        }
+        #hiddenImage {
+            display: none;
+        }
+
+        @keyframes rotateAnimation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            #message {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="message" class="animate__animated animate__fadeInDownBig">Click on the diamond to see another diamond</div>
+
+    <div id="diamondContainer">
+        <div id="diamondImage">
+            <img src="diamond.jpeg" alt="Diamond">
+        </div>
+    </div>
+    <div id="hiddenImage">
+        <img src="another_photo.jpg" alt="Another Photo">
+    </div>
+
+    <script>
+        document.getElementById('diamondImage').addEventListener('click', function() {
+            document.getElementById('diamondImage').style.display = 'none';
+            document.getElementById('hiddenImage').style.display = 'block';
+            document.getElementById('message').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
